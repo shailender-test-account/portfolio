@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shailender Bhati | MERN Full Stack Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050B14;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #0a1b3a 0%, #050B14 70%);
+            --primary-color: #00d2ff;
+            --primary-glow: rgba(0, 210, 255, 0.4);
+            --secondary-color: #3a7bd5;
+            --text-main: #ffffff;
+            --text-muted: #8892b0;
+            --card-bg: rgba(14, 25, 48, 0.6);
+            --card-border: rgba(0, 210, 255, 0.15);
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Background Particles (CSS Only) --- */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 40% 70%, white, transparent),
+                radial-gradient(1px 1px at 80% 40%, white, transparent),
+                radial-gradient(2px 2px at 60% 90%, rgba(0,210,255,0.8), transparent);
+            background-size: 200px 200px;
+            opacity: 0.3;
+            animation: twinkle 5s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.5; }
+        }
+
+        /* --- Global Styles --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        h2.section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+        
+        h2.section-title i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--primary-glow);
+            color: #000;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 210, 255, 0.1);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* --- Glassmorphism Card --- */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- Header / Navigation --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 0;
+            background: rgba(5, 11, 20, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Abstract glowing orb behind image */
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+            object-fit: cover;
+            aspect-ratio: 1/1;
+        }
+
+        /* --- Experience & Skills Section --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .exp-item {
+            margin-bottom: 20px;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .exp-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .exp-header span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* --- Tech Stack --- */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .tech-tag:hover {
+            background: rgba(0, 210, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tech-tag i {
+            color: var(--primary-color);
+        }
+
+        /* --- Projects Section --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Wrap card in link to make entire card clickable */
+        .project-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-card h3 i {
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        /* Icon animation on hover */
+        .project-card:hover h3 i {
+            color: var(--primary-color);
+            transform: translate(2px, -2px);
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* --- Work Process --- */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .process-step {
+            padding: 20px 10px;
+            position: relative;
+        }
+
+        .process-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+
+        .process-step:hover .process-icon {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* --- Numbers Section --- */
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .number-card h3 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .number-card p {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* --- Footer / Contact --- */
+        .contact-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 210, 255, 0.05) 100%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255,255,255,0.08);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations & Responsive --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            .hero-content, .grid-2, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .hero-image {
+                order: -1;
+            }
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 11, 20, 0.95);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                border-bottom: 1px solid var(--card-border);
+            }
+            nav ul.active {
+                display: flex;
+            }
+            .hamburger {
+                display: block;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        /* Hide header/footer during print for clean CV */
+        @media print {
+            header, footer, .hero-image, .btn, .social-icons, .contact-form {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+            .glass-card {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo"><span>AT</span> Shailender.</a>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text fade-in">
+                <h1>I build digital <br><span>experiences</span> that matter.</h1>
+                <p>I'm Shailender Bhati, a MERN Full Stack Developer with 3 years of experience crafting high-performance, secure, and scalable web applications.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn">Contact Me <i class="fas fa-arrow-right"></i></a>
+                    <button onclick="window.print()" class="btn btn-outline"><i class="fas fa-download"></i> Download CV</button>
+                    <a href="#projects" class="btn btn-outline">View Work</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:shailenderbhati96@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="hero-image fade-in">
+                <!-- Using a placeholder image since no photo was provided in the resume. Replace src with your actual photo -->
+                <img src="https://ui-avatars.com/api/?name=Shailender+Bhati&size=500&background=0a1b3a&color=00d2ff&font-size=0.33" alt="Shailender Bhati">
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Experience Section -->
+    <section id="about">
+        <div class="container">
+            <div class="grid-2">
+                <!-- About Me -->
+                <div class="glass-card fade-in">
+                    <h2 class="section-title"><i class="fas fa-user"></i> About Me</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        MERN Full Stack Developer with 3 years of professional experience in designing, developing, testing, and deploying scalable, high-performance, and secure web applications. 
+                        <br><br>
+                        Experienced in RESTful API development, microservices architecture, JWT authentication, role-based access control (RBAC), database design, and performance optimization. Hands-on experience with multi-tenant SaaS applications, CI/CD pipelines, Docker, and cloud deployment.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag"><i class="fab fa-react"></i> React.js</span>
+                        <span class="tech-tag"><i class="fab fa-node-js"></i> Node.js</span>
+                        <span class="tech-tag"><i class="fas fa-database"></i> MongoDB</span>
+                        <span class="tech-tag"><i class="fab fa-js"></i> TypeScript</span>
+                        <span class="tech-tag"><i class="fab fa-docker"></i> Docker</span>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="glass-card fade-in">
+                    <h2 class="section-title"><i class="fas fa-briefcase"></i> My Experience</h2>
+                    
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>MERN Full Stack Developer</h3>
+                            <span>3 Years</span>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">Softysmith Software Solutions Pvt Ltd</p>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Frontend Development</h3>
+                            <span>Expert</span>
+                        </div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Backend & API Design</h3>
+                            <span>Advanced</span>
+                        </div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
+                    </div>
+                    
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Database & Cloud</h3>
+                            <span>Advanced</span>
+                        </div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="fas fa-code"></i> My Tech Stack</h2>
+            <div class="glass-card fade-in">
+                <div class="tech-stack" style="justify-content: center; gap: 15px;">
+                    <!-- Frontend -->
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-react" style="color: #61DBFB;"></i> React.js</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-js" style="color: #F7DF1E;"></i> JavaScript (ES6+)</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-code" style="color: #3178C6;"></i> TypeScript</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-html5" style="color: #E34F26;"></i> HTML5</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-css3-alt" style="color: #264de4;"></i> CSS3</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-tailwind" style="color: #38B2AC;"></i> Tailwind CSS</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-layer-group" style="color: #764ABC;"></i> Redux Toolkit</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-bolt" style="color: #fff;"></i> Next.js</span>
+                    
+                    <!-- Backend -->
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-node-js" style="color: #68A063;"></i> Node.js</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-server" style="color: #fff;"></i> Express.js</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-leaf" style="color: #4DB33D;"></i> MongoDB</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-database" style="color: #00758F;"></i> SQL</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-project-diagram" style="color: #E10098;"></i> GraphQL</span>
+                    
+                    <!-- DevOps & Tools -->
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-docker" style="color: #2496ED;"></i> Docker</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fab fa-github" style="color: #fff;"></i> GitHub Actions</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-mobile-alt" style="color: #61DBFB;"></i> React Native</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-memory" style="color: #D82C20;"></i> Redis</span>
+                    <span class="tech-tag" style="padding: 10px 20px; font-size: 1rem;"><i class="fas fa-network-wired" style="color: #fff;"></i> Socket.IO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="fas fa-laptop-code"></i> Selected Work</h2>
+            <div class="projects-grid">
+                
+                <!-- Project 1: Grocify iOS App -->
+                <a href="#" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>Grocify iOS App <i class="fab fa-github"></i></h3>
+                        <p>A cross-platform mobile grocery application built with React Native. Features secure authentication, product browsing, and a seamless checkout experience powered by a Node.js/Express backend and MongoDB database.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag"><i class="fab fa-react"></i> React Native</span>
+                            <span class="tech-tag"><i class="fab fa-node-js"></i> Express.js</span>
+                            <span class="tech-tag"><i class="fas fa-database"></i> MongoDB</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 2: Multi-Tenant SaaS -->
+                <a href="#" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>Multi-Tenant SaaS Inventory <i class="fab fa-github"></i></h3>
+                        <p>Architected a scalable multi-tenant platform using Next.js, Node.js, and MongoDB. Implemented tenant-scoped data isolation, JWT auth, RBAC, and Redis caching for optimal performance.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 3: VNext Legal Compliance System -->
+                <a href="https://vnextlegal.com/" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>VNext Legal Compliance System <i class="fas fa-external-link-alt"></i></h3>
+                        <p>Developed a role-based legal compliance management system with MERN stack. Built protected API routes and private React routes for multi-tenant data security.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React.js</span>
+                            <span class="tech-tag">Express.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">JWT</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 4: King Cabs -->
+                <a href="https://kingcabs.co.nz/" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>King Cabs Taxi Booking <i class="fas fa-external-link-alt"></i></h3>
+                        <p>Built a responsive taxi booking web app using Next.js and TypeScript. Integrated RESTful APIs, Redux Toolkit for state management, and optimized SSR/SSG for performance.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Redux</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 5: Samriddhi Financial Services -->
+                <a href="https://samriddhifinancialservices.org/" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>Samriddhi Financial Services <i class="fas fa-external-link-alt"></i></h3>
+                        <p>A role-based financial platform (Super Admin, Admin, Customer) using MERN. Features real-time updates on loans and investments with robust RBAC middleware.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">MERN Stack</span>
+                            <span class="tech-tag">RBAC</span>
+                            <span class="tech-tag">Real-time</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 6: Vrdenta -->
+                <a href="#" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>Vrdenta Doctor Appointment <i class="fab fa-github"></i></h3>
+                        <p>Built a real-time appointment booking system with JWT authentication. Implemented prescription uploads via Multer and email integration using Nodemailer.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Multer</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 7: Shyam Ji Self Drive -->
+                <a href="https://react.softsynthsoftware.com/" target="_blank" class="project-link fade-in">
+                    <div class="glass-card project-card">
+                        <h3>Shyam Ji Self Drive Car <i class="fas fa-external-link-alt"></i></h3>
+                        <p>Full-stack car rental platform with dynamic search and filter functionality. Secured admin panel and user flows using JWT-based authentication.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">MERN</span>
+                            <span class="tech-tag">JWT</span>
+                            <span class="tech-tag">Mongoose</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Process Section -->
+    <section id="process">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="fas fa-cogs"></i> My Work Process</h2>
+            <div class="glass-card fade-in" style="padding: 40px 20px;">
+                <div class="process-grid">
+                    <div class="process-step">
+                        <div class="process-icon"><i class="fas fa-search"></i></div>
+                        <h4>01. Research</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Understand requirements & goals.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon"><i class="fas fa-pencil-ruler"></i></div>
+                        <h4>02. Design</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Architect DB & UI/UX layouts.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon"><i class="fas fa-code"></i></div>
+                        <h4>03. Develop</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Write clean, scalable code.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon"><i class="fas fa-bug"></i></div>
+                        <h4>04. Test</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Unit & integration testing.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon"><i class="fas fa-rocket"></i></div>
+                        <h4>05. Deploy</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">CI/CD pipelines & cloud release.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Numbers Section -->
+    <section id="numbers">
+        <div class="container">
+            <div class="glass-card fade-in" style="padding: 40px;">
+                <div class="numbers-grid">
+                    <div class="number-card">
+                        <h3>3+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="number-card">
+                        <h3>20+</h3>
+                        <p>Projects Completed</p>
+                    </div>
+                    <div class="number-card">
+                        <h3>100%</h3>
+                        <p>Client Satisfaction</p>
+                    </div>
+                    <div class="number-card">
+                        <h3>10+</h3>
+                        <p>Technologies Mastered</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="fas fa-envelope"></i> Let's Build Something Great</h2>
+            <div class="contact-grid">
+                <div class="contact-info fade-in">
+                    <p><i class="fas fa-phone"></i> +91 9315467903</p>
+                    <p><i class="fas fa-envelope"></i> shailenderbhati96@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Faridabad, INDIA</p>
+                    <p><i class="fab fa-github"></i> github.com/shailenderbhati</p>
+                    <p><i class="fab fa-linkedin"></i> linkedin.com/in/shailenderbhati</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <p style="font-weight: bold; color: var(--text-main);">Education:</p>
+                        <p style="margin-bottom: 10px;">B.Tech ECE - Kurukshetra University (2023)</p>
+                    </div>
+                </div>
+
+                <div class="contact-form glass-card fade-in">
+                    <form action="#" onsubmit="event.preventDefault(); alert('Message sent successfully! (Demo)');">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea rows="5" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn" style="width: 100%;">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Shailender Bhati. All rights reserved. Built with MERN Stack focus.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Scroll Animation Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Trigger skill bar animation if it's the experience card
+                    if (entry.target.querySelector('.skill-progress')) {
+                        const progressBars = entry.target.querySelectorAll('.skill-progress');
+                        progressBars.forEach(bar => {
+                            bar.style.width = bar.getAttribute('data-width');
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active Nav Link on Scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
